@@ -21,8 +21,7 @@ int uni(int i,int j)
 }
 int main()
 {
-	for(i=0;i<9;i++)
-		printf("%d",parent[i]);
+	
     printf("Implementation of Kruskal's algorithm\n");
     printf("Enter the no. of vertices:");
     scanf("%d",&n);
