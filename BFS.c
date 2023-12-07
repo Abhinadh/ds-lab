@@ -1,50 +1,78 @@
 #include <stdio.h>
- 
-int n, i, j, visited[10], queue[10], front = -1, rear = -1;
-int adj[10][10];
- 
-void bfs(int v)
+int n, s, adj[10][10], queue[10];
+int visited[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+int front = -1, rear = -1, item;
+void enqueue(int item)
 {
-    for (i = 1; i <= n; i++)
-        if (adj[v][i] && !visited[i])
-            queue[++rear] = i;
-    if (front <= rear)
+    if (rear == 9)
+        printf("Queue if Full \n");
+    else
     {
-        visited[queue[front]] = 1;
-        bfs(queue[front++]);
+        if (rear == -1)
+        {
+            front = rear = 0;
+            queue[rear] = item;
+        }
+        else
+        {
+            rear = rear + 1;
+            queue[rear] = item;
+        }
     }
 }
- 
+int dequeue()
+{
+    int k;
+    if ((front > rear) || (front == -1))
+        return (0);
+    else
+    {
+        k = queue[front];
+        front++;
+        return (k);
+    }
+}
+void bfs(int s, int n)
+{
+    int p;
+    enqueue(s);
+    visited[s] = 1;
+    p = dequeue();
+    if (p != 0)
+    {
+        printf("%d \t", p);
+    }
+    while (p != 0)
+    {
+        for (int i = 1; i <= n; i++)
+        {
+            if (adj[p][i] == 1 && visited[i] == 0)
+            {
+                enqueue(i);
+                visited[i] = 1;
+            }
+        }
+        p = dequeue();
+        if (p != 0)
+        {
+            printf("%d \t", p);
+        }
+    }
+}
 int main()
 {
-    int v;
-    printf("Enter the number of vertices: ");
+    printf("Enter the no of vertices : \n ");
     scanf("%d", &n);
-    for (i = 1; i <= n; i++)
+    printf("Enter the adjacency matrix : \n ");
+    for (int i = 1; i <= n; i++)
     {
-        queue[i] = 0;
-        visited[i] = 0;
-    }
-    printf("Enter graph data in matrix form:    \n");
-    for (i = 1; i <= n; i++)
-    {
-    
-        for (j = 1; j <= n; j++)
+        for (int j = 1; j <= n; j++)
         {
-        
-            scanf("\t%d", &adj[i][j]);
-            }
-            printf("\n");
-            }
-    printf("Enter the starting vertex: ");
-    scanf("%d", &v);
-    bfs(v);
-    printf("The node which are reachable are:    \n");
-    for (i = 1; i <= n; i++)
-        if (visited[i])
-            printf("%d\t", i);
-        else
-            printf("BFS is not possible. Not all nodes are reachable");
+            scanf("%d", &adj[i][j]);
+        }
+    }
+    printf("Enter the starting vertex : \n ");
+    scanf("%d", &s);
+    bfs(s, n);
     return 0;
 }
-
